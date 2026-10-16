@@ -1,0 +1,16 @@
+# Node.js dependencies
+node_modules/
+
+# Serverless Framework build and deployment artifacts
+.serverless/
+
+# Local environment and secret files
+.env
+.env.*
+!.env.example
+
+# Deployment and debug logs
+*.log
+
+# macOS metadata
+.DS_Store

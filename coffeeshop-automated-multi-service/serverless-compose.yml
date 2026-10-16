@@ -1,0 +1,22 @@
+services:
+  rating-service:
+    path: rating-service
+
+  menu-service:
+    path: menu-service
+
+  review-service:
+    path: review-service
+    dependsOn:
+      - rating-service
+    params:
+      ratingsUrl: ${service:rating-service.ApiUrl}/rating
+
+  storefront:
+    path: storefront
+    dependsOn:
+      - menu-service
+      - review-service
+    params:
+      menuServiceUrl: ${service:menu-service.ApiUrl}
+      reviewsServiceUrl: ${service:review-service.ApiUrl}

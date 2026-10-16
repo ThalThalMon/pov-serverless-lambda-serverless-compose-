@@ -1,0 +1,25 @@
+org: ttmonaws
+app: coffeeshop
+service: menu-service
+
+provider:
+  name: aws
+  runtime: nodejs24.x
+  architecture: arm64
+
+functions:
+  getMenu:
+    handler: handler.getMenu
+    events:
+      - httpApi:
+          path: /menu
+          method: get
+
+resources:
+  Outputs:
+    ApiUrl:
+      Description: Base URL for the menu HTTP API
+      Value:
+        Fn::GetAtt:
+          - HttpApi
+          - ApiEndpoint

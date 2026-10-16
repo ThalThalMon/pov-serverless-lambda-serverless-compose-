@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#171310">
+    <title>AURA Coffee | Menu and Reviews</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #171310;
+            color: #f7efe5;
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            --muted: #b9a99a;
+            --accent: #d8a66a;
+            --panel: #211c18;
+            --border: #493a2d;
+        }
+
+        * { box-sizing: border-box; }
+        body { margin: 0; min-width: 320px; }
+        a { color: inherit; text-decoration: none; }
+        button { font: inherit; }
+        .shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+        .topbar { border-bottom: 1px solid var(--border); }
+        .topbar-inner { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+        .brand { color: var(--accent); font-size: 1.2rem; font-weight: 800; letter-spacing: .18em; }
+        nav { display: flex; gap: 24px; color: var(--muted); font-size: .9rem; }
+        nav a:hover, nav a:focus-visible { color: var(--accent); }
+        main { padding: 64px 0 88px; }
+        .intro { margin-bottom: 56px; text-align: center; }
+        .eyebrow { color: var(--accent); font-size: .75rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+        h1, h2, h3, p { margin-top: 0; }
+        h1 { margin: 14px 0; font-size: clamp(2rem, 5vw, 3.5rem); }
+        .intro p, .section-copy { color: var(--muted); line-height: 1.7; }
+        .section { margin-top: 64px; scroll-margin-top: 24px; }
+        .section-heading { margin-bottom: 24px; }
+        .section-heading h2 { margin: 8px 0; font-size: clamp(1.6rem, 3vw, 2.2rem); }
+        .filters { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0; }
+        .filter {
+            padding: 9px 15px;
+            color: var(--muted);
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            cursor: pointer;
+        }
+        .filter[aria-pressed="true"], .filter:hover, .filter:focus-visible {
+            color: #21170f;
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+        .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+        .card { padding: 24px; background: var(--panel); border: 1px solid var(--border); border-radius: 18px; }
+        .menu-card { display: flex; min-height: 210px; flex-direction: column; justify-content: space-between; gap: 20px; }
+        .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+        .tag { color: var(--accent); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; }
+        .price { white-space: nowrap; font-weight: 700; }
+        .card h3 { margin: 14px 0 8px; font-size: 1.15rem; }
+        .card p { margin-bottom: 0; color: var(--muted); font-size: .9rem; line-height: 1.6; }
+        .review-card { display: flex; flex-direction: column; justify-content: space-between; gap: 20px; }
+        .reviewer { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); font-weight: 700; }
+        .review-detail { display: block; margin-top: 5px; color: var(--muted); font-size: .8rem; font-weight: 400; }
+        .beans { margin-bottom: 10px; color: var(--accent); font-size: 1.35rem; letter-spacing: .12em; }
+        .rating-value { color: var(--muted); font-variant-numeric: tabular-nums; }
+        .status { min-height: 1.5em; margin: 14px 0; color: var(--muted); }
+        .error { color: #ffb4a8; }
+        footer { padding: 24px 0; color: var(--muted); border-top: 1px solid var(--border); font-size: .8rem; text-align: center; }
+
+        @media (max-width: 760px) {
+            .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 520px) {
+            .shell { width: min(100% - 28px, 1120px); }
+            .topbar-inner { min-height: 64px; }
+            nav { gap: 14px; font-size: .82rem; }
+            main { padding-top: 48px; }
+            .grid { grid-template-columns: 1fr; }
+            .section { margin-top: 48px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="shell topbar-inner">
+            <a class="brand" href="#top" aria-label="AURA Coffee home">AURA COFFEE</a>
+            <nav aria-label="Main navigation">
+                <a href="#menu">Menu</a>
+                <a href="#reviews">Reviews</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="shell" id="top">
+        <div class="intro">
+            <span class="eyebrow">Coffee Atelier</span>
+            <h1>Crafted coffee, thoughtfully rated.</h1>
+            <p>Explore the AURA menu and read reviews with community ratings.</p>
+        </div>
+
+        <section class="section" id="menu" aria-labelledby="menu-title">
+            <div class="section-heading">
+                <span class="eyebrow">Curated selection</span>
+                <h2 id="menu-title">The Menu</h2>
+                <p class="section-copy">Coffee, botanical drinks, and fresh pastries.</p>
+            </div>
+            <div class="filters" role="group" aria-label="Filter menu category">
+                <button class="filter menu-filter" type="button" data-category="all" aria-pressed="true">All</button>
+                <button class="filter menu-filter" type="button" data-category="signature" aria-pressed="false">Signature</button>
+                <button class="filter menu-filter" type="button" data-category="molecular" aria-pressed="false">Molecular</button>
+                <button class="filter menu-filter" type="button" data-category="botanical" aria-pressed="false">Botanical</button>
+                <button class="filter menu-filter" type="button" data-category="pastry" aria-pressed="false">Pastries</button>
+            </div>
+            <p class="status" id="menu-status" role="status">Loading menu...</p>
+            <div class="grid" id="menu-grid"></div>
+        </section>
+
+        <section class="section" id="reviews" aria-labelledby="reviews-title">
+            <div class="section-heading">
+                <span class="eyebrow">Community impressions</span>
+                <h2 id="reviews-title">Coffee Reviews</h2>
+                <p class="section-copy">Choose a review version. v1 has no ratings; v2 and v3 include ratings.</p>
+            </div>
+            <div class="filters" role="group" aria-label="Select review version">
+                <button class="filter review-version" type="button" data-version="1" aria-pressed="true">Reviews v1</button>
+                <button class="filter review-version" type="button" data-version="2" aria-pressed="false">Reviews v2</button>
+                <button class="filter review-version" type="button" data-version="3" aria-pressed="false">Reviews v3</button>
+            </div>
+            <p class="status" id="reviews-status" role="status">Loading reviews...</p>
+            <div class="grid" id="reviews-grid"></div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="shell">AURA Coffee Atelier</div>
+    </footer>
+
+    <script>
+        const menuGrid = document.getElementById('menu-grid');
+        const menuStatus = document.getElementById('menu-status');
+        const reviewsGrid = document.getElementById('reviews-grid');
+        const reviewsStatus = document.getElementById('reviews-status');
+        let menuItems = [];
+        let selectedCategory = 'all';
+        let selectedVersion = '1';
+
+        document.querySelectorAll('.menu-filter').forEach((button) => {
+            button.addEventListener('click', () => {
+                selectedCategory = button.dataset.category;
+                document.querySelectorAll('.menu-filter').forEach((filter) => {
+                    filter.setAttribute('aria-pressed', String(filter === button));
+                });
+                renderMenu();
+            });
+        });
+
+        document.querySelectorAll('.review-version').forEach((button) => {
+            button.addEventListener('click', () => {
+                selectedVersion = button.dataset.version;
+                document.querySelectorAll('.review-version').forEach((versionButton) => {
+                    versionButton.setAttribute('aria-pressed', String(versionButton === button));
+                });
+                loadStorefrontData();
+            });
+        });
+
+        function createElement(tag, className, text) {
+            const element = document.createElement(tag);
+            if (className) element.className = className;
+            if (text !== undefined) element.textContent = text;
+            return element;
+        }
+
+        function renderMenu() {
+            menuGrid.replaceChildren();
+            const visibleItems = selectedCategory === 'all'
+                ? menuItems
+                : menuItems.filter((item) => item.category === selectedCategory);
+
+            visibleItems.forEach((item) => {
+                const card = createElement('article', 'card menu-card');
+                const content = document.createElement('div');
+                const top = createElement('div', 'card-top');
+                top.append(
+                    createElement('span', 'tag', item.tag),
+                    createElement('span', 'price', `$${Number(item.price).toFixed(2)}`)
+                );
+                content.append(top, createElement('h3', '', item.name), createElement('p', '', item.description));
+                card.append(content);
+                menuGrid.append(card);
+            });
+
+            if (visibleItems.length === 0) {
+                menuGrid.append(createElement('p', 'section-copy', 'No menu items in this category.'));
+            }
+        }
+
+        function renderReviews(reviews) {
+            reviewsGrid.replaceChildren();
+            reviews.forEach((review) => {
+                const card = createElement('article', 'card review-card');
+                const content = document.createElement('div');
+                if (Number.isFinite(review.rating)) {
+                    const rating = Math.max(0, Math.min(5, review.rating));
+                    const beans = createElement('div', 'beans');
+                    for (let index = 0; index < 5; index += 1) {
+                        const bean = createElement('span', '', '☕');
+                        bean.style.opacity = String(Math.max(0.25, Math.min(1, rating - index)));
+                        beans.append(bean);
+                    }
+                    beans.setAttribute('aria-label', `${rating.toFixed(1)} out of 5`);
+                    content.append(beans, createElement('p', 'rating-value', `${rating.toFixed(1)} / 5`));
+                }
+                content.append(createElement('p', 'section-copy', `“${review.text}”`));
+                const reviewer = createElement('div', 'reviewer', review.reviewer);
+                reviewer.append(createElement('span', 'review-detail', review.detail || ''));
+                card.append(content, reviewer);
+                reviewsGrid.append(card);
+            });
+
+            if (reviews.length === 0) {
+                reviewsGrid.append(createElement('p', 'section-copy', 'No reviews are currently available.'));
+            }
+        }
+
+        async function loadStorefrontData() {
+            menuStatus.textContent = 'Loading menu...';
+            reviewsStatus.textContent = `Loading reviews v${selectedVersion}...`;
+            reviewsGrid.replaceChildren();
+
+            try {
+                const response = await fetch(`/storefront-data?version=${encodeURIComponent(selectedVersion)}`);
+                if (!response.ok) {
+                    throw new Error(`Storefront data returned HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                if (!Array.isArray(data.menu) || !Array.isArray(data.reviews?.reviews)) {
+                    throw new Error('Storefront returned an invalid menu or reviews response');
+                }
+
+                menuItems = data.menu;
+                renderMenu();
+                renderReviews(data.reviews.reviews);
+                menuStatus.textContent = '';
+                reviewsStatus.textContent = `Showing reviews ${data.version}.`;
+            } catch (error) {
+                console.error('Failed to load storefront menu and reviews:', error);
+                menuStatus.textContent = `Menu could not be loaded: ${error.message}`;
+                menuStatus.classList.add('error');
+                reviewsStatus.textContent = `Reviews could not be loaded: ${error.message}`;
+                reviewsStatus.classList.add('error');
+            }
+        }
+
+        loadStorefrontData();
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: ttmonaws
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: coffeeshop
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: storefront
+
+provider:
+  name: aws
+  runtime: nodejs24.x
+  architecture: arm64
+  environment:
+    MENU_SERVICE_URL: ${param:menuServiceUrl}
+    REVIEWS_SERVICE_URL: ${param:reviewsServiceUrl}
+
+functions:
+  storefront:
+    handler: handler.storefront
+    events:
+      - httpApi:
+          path: /storefront
+          method: get
+  storefrontData:
+    handler: handler.storefrontData
+    events:
+      - httpApi:
+          path: /storefront-data
+          method: get
+
+package:
+  patterns:
+    - handler.js
+    - index.html

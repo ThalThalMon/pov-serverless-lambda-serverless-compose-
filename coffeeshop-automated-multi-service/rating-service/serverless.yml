@@ -1,0 +1,25 @@
+org: ttmonaws
+app: coffeeshop
+service: rating-service
+
+provider:
+  name: aws
+  runtime: nodejs24.x
+  architecture: arm64
+
+functions:
+  getRatings:
+    handler: handler.getRatings
+    events:
+      - httpApi:
+          path: /rating
+          method: get
+
+resources:
+  Outputs:
+    ApiUrl:
+      Description: Base URL for the rating HTTP API
+      Value:
+        Fn::GetAtt:
+          - HttpApi
+          - ApiEndpoint

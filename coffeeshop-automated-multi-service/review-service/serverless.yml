@@ -1,0 +1,39 @@
+org: ttmonaws
+app: coffeeshop
+service: review-service
+
+provider:
+  name: aws
+  runtime: nodejs24.x
+  architecture: arm64
+  environment:
+    RATINGS_URL: ${param:ratingsUrl}
+
+functions:
+  reviewV1:
+    handler: handler.reviewV1
+    events:
+      - httpApi:
+          path: /review-v1
+          method: get
+  reviewV2:
+    handler: handler.reviewV2
+    events:
+      - httpApi:
+          path: /review-v2
+          method: get
+  reviewV3:
+    handler: handler.reviewV3
+    events:
+      - httpApi:
+          path: /review-v3
+          method: get
+
+resources:
+  Outputs:
+    ApiUrl:
+      Description: Base URL for the review HTTP API
+      Value:
+        Fn::GetAtt:
+          - HttpApi
+          - ApiEndpoint
